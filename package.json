@@ -1,0 +1,29 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antonio-Russo/demo_bot_telegram_node.git"
+  },
+  "author": "Antonio Russo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Antonio-Russo/demo_bot_telegram_node/issues"
+  },
+  "homepage": "https://github.com/Antonio-Russo/demo_bot_telegram_node#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "dotenv": "^8.2.0"
+  }
+}
