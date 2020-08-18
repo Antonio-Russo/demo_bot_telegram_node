@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "app-root-path": "^3.0.0",
+    "axios": "^0.19.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "file-system": "^2.2.2",

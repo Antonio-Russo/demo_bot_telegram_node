@@ -1,13 +1,11 @@
-
-const config =  require('dotenv').config();
-const http = require('http');
+const {app} = require("./config");
 const TeleBot = require('telebot');
 const fs = require('fs');
 const sentiment = require('multilang-sentiment');
 const Discord = require('discord.js');
 let bot = new Discord.Client();
 bot = new TeleBot({
-    token:  process.env.TOKEN_TELEGRAM,
+    token:  app.tokenTelegram,
     usePlugins: ['namedButtons','askUser'],
     pluginConfig: {
         namedButtons: {
@@ -18,6 +16,7 @@ bot = new TeleBot({
 
 //contiene le variabili globali da condidere con i moduli
 const g = require('./models/global');
+global.arrayPresence= [];
 
 //contiene la lista dei bottoni relativa al markup del BOT che vengono gestiti dal BOT con commands apposite
 const BUTTON_INTEFACE = require('./constants/button');
@@ -43,7 +42,10 @@ for (const file of commandFiles) {
 bot.on('text', (msg) => {
         const { chat, text } = msg;
         const command = text.toLowerCase();
-        console.info(`Called command: ${text} askInCorso:${g.askInCorso} `);
+
+        let objIndexAsk = global.arrayPresence.findIndex((obj => obj.idTelegram == msg.from.id));
+
+        console.info(`Called command ${msg.from.first_name} (${msg.from.id}) : ${text} objIndexAskInCorso-> ${objIndexAsk} `);
 
         //attivo la routine ask per l'interazione con il bot e l'inserimento delle presenze
         if(!g.attivoAsk){
@@ -52,7 +54,7 @@ bot.on('text', (msg) => {
             g.attivoAsk=true;
         }
 
-        if (!bot.commands.has(command) && !g.askInCorso && !actionButton.find(o => o === text)){
+        if (!bot.commands.has(command) && objIndexAsk===-1 && !actionButton.find(o => o === text)){
             if(command!=='/start' && command!=='/help' && command!=='/annullainserimento' ){
 
                 //analizzo il sentiment del messaggio per dare una risposta in caso di score negativo
@@ -93,7 +95,7 @@ bot.on('/start', (msg) => {
 bot.on('/help', (msg) => {
 
     //todo da implementare un help per l'utente in HTML
-    const html=`😺 🥰 <b>bold</b>, <strong>bold</strong> Stefano
+    const html=`😺 🥰 <b>bold</b>, <strong>bold</strong>
                 <i>italic</i>, <em>italic</em>
                 <u>underline</u>, <ins>underline</ins>
                 <s>strikethrough</s>, <strike>strikethrough</strike>, <del>strikethrough</del>
